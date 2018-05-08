@@ -1,11 +1,15 @@
 package RequestHandler;
 
-public class Request {
-    private RequestType action;
-    private String path;
+import java.util.HashMap;
 
-    public Request(RequestType type, String path) {
-        this.action = type;
+public class Request {
+    private RequestMethod requestMethod;
+    private String path;
+    private HashMap<String,String> requestHeader;
+    private String requestBody;
+
+    public Request(RequestMethod requestMethod, String path) {
+        this.requestMethod = requestMethod;
         this.path = path;
     }
 
@@ -13,8 +17,15 @@ public class Request {
         return path;
     }
 
-    public RequestType getAction() {
-        return action;
+    public RequestMethod getRequestMethod() {
+        return requestMethod;
     }
 
+    public void setRequestHeader(HashMap<String, String> requestHeader) {
+        this.requestHeader = requestHeader;
+    }
+
+    public void setRequestBody(String requestBody) {
+        this.requestBody = requestBody;
+    }
 }

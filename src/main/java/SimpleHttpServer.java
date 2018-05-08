@@ -15,7 +15,7 @@ public class SimpleHttpServer {
     public void start() throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (true) {
-                serverExecutorPool.submit(new RequestResponseHandler(serverSocket.accept()));
+                serverExecutorPool.submit(new ResponseHandler(serverSocket.accept()));
             }
         } finally {
             serverExecutorPool.shutdown();

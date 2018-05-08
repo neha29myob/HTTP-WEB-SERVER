@@ -1,6 +1,6 @@
 package RequestHandler;
 
-public enum RequestType {
+public enum RequestMethod {
     GET,
     HEAD,
     POST,

@@ -5,8 +5,8 @@ import java.util.concurrent.Executors;
 
 public class SimpleHttpServer {
 
-    private int port;
     ExecutorService serverExecutorPool = Executors.newFixedThreadPool(10);
+    private int port;
 
     public SimpleHttpServer(int port) {
         this.port = port;

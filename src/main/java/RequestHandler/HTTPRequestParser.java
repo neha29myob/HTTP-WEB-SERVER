@@ -1,34 +1,24 @@
 package RequestHandler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class HTTPRequestParser {
-    private InputStreamReader incomingRequest;
+    private HttpRequestReader requestReader;
 
     public HTTPRequestParser(InputStreamReader incomingRequest) {
-        this.incomingRequest = incomingRequest;
+        requestReader = new HttpRequestReader(incomingRequest);
     }
 
-    public Request processRequest() throws IOException {
-        String input = readInput();
-        String requestLine =input.split("\n")[0];
+    public Request parseRequest() throws IOException {
+
+        String input = requestReader.readRequest();
+        System.out.println(input);
+        String requestLine = input.split("\n")[0];
         RequestType requestType = RequestType.valueOf(requestLine.split(" ")[0]);
         String path = requestLine.split(" ")[1];
-        return new Request(requestType,path);
+
+        return new Request(requestType, path);
     }
 
-    public String readInput () throws IOException {
-        int line;
-        StringBuilder input = new StringBuilder();
-        BufferedReader reader = new BufferedReader(incomingRequest);
-        do {
-            if ((line = reader.read()) != -1) {
-                input.append(Character.toChars(line));
-            }
-        }
-        while (reader.ready());
-        return input.toString();
-    }
 }

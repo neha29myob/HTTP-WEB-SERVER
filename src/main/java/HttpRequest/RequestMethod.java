@@ -1,4 +1,4 @@
-package RequestHandler;
+package HttpRequest;
 
 public enum RequestMethod {
     GET,

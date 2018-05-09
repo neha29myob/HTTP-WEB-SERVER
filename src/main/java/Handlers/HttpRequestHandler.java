@@ -1,6 +1,7 @@
 package Handlers;
 
-import RequestHandler.Request;
+import HttpRequest.Request;
+import HttpResponse.Response;
 
 public interface HttpRequestHandler {
 

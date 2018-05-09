@@ -1,7 +1,7 @@
-package Response;
+package HttpResponse;
 
 import Handlers.HttpRequestHandler;
-import RequestHandler.Request;
+import HttpRequest.Request;
 
 import java.util.HashMap;
 
@@ -25,7 +25,6 @@ public class Router {
 
 
     public String getResponse(Request request){
-
         if(routeMap.containsKey(request.getPath())){
             System.out.println(request.getRequestMethod() + " " + request.getPath());
             return routeMap.get(request.getPath()).handle(request);

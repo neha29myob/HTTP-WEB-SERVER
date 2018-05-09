@@ -1,11 +1,10 @@
-package Response;
+package HttpResponse;
 
 import Handlers.DefaultOkHandler;
 import Handlers.OptionsHandler;
-import RequestHandler.HTTPRequestParser;
-import RequestHandler.HttpRequestReader;
-import RequestHandler.Request;
-import RequestHandler.RequestMethod;
+import HttpRequest.HTTPRequestParser;
+import HttpRequest.HttpRequestReader;
+import HttpRequest.Request;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

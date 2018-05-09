@@ -28,4 +28,12 @@ public class Request {
     public void setRequestBody(String requestBody) {
         this.requestBody = requestBody;
     }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "requestMethod=" + requestMethod +
+                ", path='" + path + '\'' +
+                '}';
+    }
 }

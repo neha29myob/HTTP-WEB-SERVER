@@ -6,5 +6,6 @@ public enum RequestMethod {
     POST,
     PUT,
     DELETE,
-    PATCH
+    PATCH,
+    OPTIONS
 }

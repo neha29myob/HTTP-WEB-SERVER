@@ -17,9 +17,24 @@ public class Response {
         this.responseHeader.put(key, value);
     }
 
-    private String parseResponseHeader(){
+    public void setResponseBody(String responseBody) {
+        this.responseBody = responseBody;
+    }
+
+    private  String getResponseStatusLine(){
+        return "HTTP/1.1 " + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode);
+    }
+    private String getResponseBody() {
+        return responseBody;
+    }
+
+    private String getResponseHeader(){
 
         String responseHeaderString = "";
+//        responseHeader.forEach((k,v) -> {
+//            responseHeaderString =  k + ":" + v;
+//        });
+
         for(String headerKey: responseHeader.keySet()){
             responseHeaderString = headerKey+":" + responseHeader.get(headerKey) + CRLF;
         }
@@ -27,18 +42,9 @@ public class Response {
             return responseHeaderString;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Response{" +
-//                "statusCode=" + statusCode +
-//                ", responseHeader=" + responseHeader +
-//                ", responseBody='" + responseBody + '\'' +
-//                '}';
-//    }
-
     @Override
     public String toString() {
-        return  "HTTP/1.1 " + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode) + CRLF +
-                parseResponseHeader() + CRLF;
+        return  getResponseStatusLine() + CRLF +
+                getResponseHeader() + CRLF + getResponseBody() ;
     }
 }

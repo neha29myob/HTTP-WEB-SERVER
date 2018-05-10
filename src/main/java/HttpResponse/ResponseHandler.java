@@ -1,7 +1,6 @@
 package HttpResponse;
 
-import Handlers.DefaultOkHandler;
-import Handlers.OptionsHandler;
+import Handlers.*;
 import HttpRequest.HTTPRequestParser;
 import HttpRequest.HttpRequestReader;
 import HttpRequest.Request;
@@ -40,9 +39,11 @@ public class ResponseHandler implements Runnable {
         router.addRoute("/form", new DefaultOkHandler());
         router.addRoute("/put-target", new DefaultOkHandler());
         router.addRoute("/method_options", new OptionsHandler());
-
-
         router.addRoute("/method_options2", new OptionsHandler());
+        router.addRoute("/redirect", new RedirectHandler());
+        router.addRoute("/coffee", new FourEighteenHandler());
+        router.addRoute("/tea", new DefaultOkHandler());
+        router.addRoute("/parameters", new RequestParameterHandler());
 
         String httpResponse = router.getResponse(request);
 

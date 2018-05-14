@@ -24,6 +24,7 @@ public class Response {
     private  String getResponseStatusLine(){
         return "HTTP/1.1 " + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode);
     }
+
     private String getResponseBody() {
         return responseBody;
     }
@@ -36,7 +37,7 @@ public class Response {
 //        });
 
         for(String headerKey: responseHeader.keySet()){
-            responseHeaderString = headerKey+":" + responseHeader.get(headerKey) + CRLF;
+            responseHeaderString = headerKey + ":" + responseHeader.get(headerKey) + CRLF;
         }
         System.out.println(responseHeaderString);
             return responseHeaderString;

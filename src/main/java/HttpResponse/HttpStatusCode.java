@@ -11,6 +11,9 @@ public class HttpStatusCode {
             httpStatusCodeMap.put(418, "I'm a teapot");
             httpStatusCodeMap.put(302, "Found");
             httpStatusCodeMap.put(418, "I'm a teapot");
+            httpStatusCodeMap.put(201,"Created");
+            httpStatusCodeMap.put(405,"Method Not Allowed");
+            httpStatusCodeMap.put(204, "No Content");
 
         }
     }

@@ -1,19 +1,31 @@
 package HttpRequest;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+
 import java.util.HashMap;
-import java.util.Map;
 
 public class Request {
     private RequestMethod requestMethod;
     private String path;
-    private HashMap<String,String> searchRequest;
+    private HashMap<String,String> searchQuery;
     private String pathName;
+
+    public HashMap<String, String> getRequestHeader() {
+        return requestHeader;
+    }
+
     private HashMap<String,String> requestHeader;
+
+    public String getRequestBody() {
+        return requestBody;
+    }
+
     private String requestBody;
 
     public Request(RequestMethod requestMethod, String pathName) {
         this.requestMethod = requestMethod;
+        this.pathName = pathName;
+    }
+
+    public void setPathName(String pathName) {
         this.pathName = pathName;
     }
 
@@ -41,30 +53,25 @@ public class Request {
         this.requestBody = requestBody;
     }
 
-    public HashMap<String, String> getSearchRequest() {
-        return searchRequest;
+    public HashMap<String, String> getSearchQuery() {
+        return searchQuery;
     }
 
-    public void setSearchRequest(HashMap<String, String> searchRequest) {
-        this.searchRequest = searchRequest;
+    public void setSearchQuery(HashMap<String, String> searchRequest) {
+        this.searchQuery = searchRequest;
     }
+
+
 
     @Override
     public String toString() {
         return "Request{" +
                 "requestMethod=" + requestMethod +
                 ", path='" + path + '\'' +
-                ", searchRequest=" + searchRequest +
+                ", searchRequest=" + searchQuery +
                 ", pathName='" + pathName + '\'' +
                 ", requestHeader=" + requestHeader +
                 ", requestBody='" + requestBody + '\'' +
                 '}';
     }
-//    @Override
-//    public String toString() {
-//        return "Request{" +
-//                "requestMethod=" + requestMethod +
-//                ", pathName='" + pathName + '\'' +
-//                '}';
-//    }
 }

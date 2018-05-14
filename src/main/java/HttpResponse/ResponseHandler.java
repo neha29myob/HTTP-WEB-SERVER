@@ -35,7 +35,6 @@ public class ResponseHandler implements Runnable {
 
         Router router = new Router(request);
 
-        router.addRoute("/", new DefaultOkHandler());
         router.addRoute("/form", new DefaultOkHandler());
         router.addRoute("/put-target", new DefaultOkHandler());
         router.addRoute("/method_options", new OptionsHandler());
@@ -44,10 +43,20 @@ public class ResponseHandler implements Runnable {
         router.addRoute("/coffee", new FourEighteenHandler());
         router.addRoute("/tea", new DefaultOkHandler());
         router.addRoute("/parameters", new RequestParameterHandler());
+        router.addRoute("/cookie", new GetCookieHandler());
+        router.addRoute("/eat_cookie", new EatCookieHandler());
+        //CrudHandler crudHandler = new CrudHandler();
+        //router.addRoute("/cat-form", crudHandler);
+        //router.addRoute("/cat-form/data", crudHandler);
+        router.addRoute("/", new DirectoryHandler());
+
+
 
         String httpResponse = router.getResponse(request);
 
-        connection.getOutputStream().write(httpResponse.getBytes("UTF-8"));
+        connection.getOutputStream().write(httpResponse.getBytes());
+
+
 
 
 

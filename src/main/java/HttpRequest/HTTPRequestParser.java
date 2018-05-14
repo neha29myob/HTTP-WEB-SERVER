@@ -6,7 +6,6 @@ import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class HTTPRequestParser {
 
@@ -24,7 +23,7 @@ public class HTTPRequestParser {
 
        if(!(getQuery(request.getPath()).isEmpty())){
          HashMap<String,String> queryPairs = getQueryParameters(requestLine.split(" ")[1]);
-            request.setSearchRequest(queryPairs);
+            request.setSearchQuery(queryPairs);
         }
 
         List<String> headerList = Arrays.asList(requestHeader.split("\r\n"));

@@ -17,11 +17,11 @@ public class ImageHandler implements HttpRequestHandler {
         Response response = new Response(200);
         System.out.println(request.getPath().split("\\.")[1]);
         response.setResponseHeader("Content-type:", "image/" + request.getPath().split("\\.")[1]);
-//        try {
-//            response.setResponseImage(writeImageToResponseBody(filePath));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            response.setResponseBody(writeImageToResponseBody(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return response;
     }
 

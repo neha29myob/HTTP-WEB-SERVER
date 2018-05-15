@@ -7,7 +7,7 @@ public class Response {
     private static String CRLF = "\r\n";
     private int statusCode;
     private HashMap<String, String> responseHeader = new HashMap<>();
-    private String responseBody;
+    private byte[] responseBody;
 
 //    public void setResponseImage(byte[] responseImage) {
 //        this.responseImage = responseImage;
@@ -22,14 +22,18 @@ public class Response {
     }
 
     public String getResponseStatusLine() {
-        return ("HTTP/1.1 " + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode));
+        return ("HTTP/1.1 " + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode)) + CRLF;
     }
 
-    private String getResponseBody() {
+    public byte[] getResponseBody() {
         return responseBody;
     }
 
     public void setResponseBody(String responseBody) {
+        this.responseBody = responseBody.getBytes();
+    }
+
+    public void setResponseBody(byte[] responseBody) {
         this.responseBody = responseBody;
     }
 
@@ -44,11 +48,8 @@ public class Response {
             responseHeaderString = headerKey + ":" + responseHeader.get(headerKey) + CRLF;
         }
 
-        return responseHeaderString;
+        return responseHeaderString + CRLF;
     }
-
-
-
 
     @Override
     public String toString() {

@@ -17,6 +17,7 @@ public class RequestParameterHandler implements HttpRequestHandler {
             body += headerKey + " = " + queryPairs.get(headerKey) + "\r\n";
         }
         response.setResponseBody(body);
+        System.out.println(response.getResponseBody());
         return response;
     }
 }

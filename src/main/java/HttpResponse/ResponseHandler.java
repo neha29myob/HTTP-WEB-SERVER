@@ -7,6 +7,7 @@ import HttpRequest.Request;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,10 +55,18 @@ public class ResponseHandler implements Runnable {
 
         Response httpResponse = router.getResponse(request);
 
+       OutputStream outputStream = connection.getOutputStream();
+       // outputStream.write(httpResponse.toString().getBytes());
+        writeResponse(httpResponse, outputStream);
 
+    }
 
-        connection.getOutputStream().write(httpResponse.toString().getBytes());
-
+    private void writeResponse(Response httpResponse, OutputStream outputStream) throws IOException {
+        outputStream.write(httpResponse.getResponseStatusLine().getBytes());
+        outputStream.write(httpResponse.getResponseHeader().getBytes());
+        outputStream.write(httpResponse.getResponseBody());
+        outputStream.flush();
+        outputStream.close();
     }
 
 }

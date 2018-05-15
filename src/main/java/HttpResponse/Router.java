@@ -20,7 +20,7 @@ public class Router {
         routeMap.put(path, handler);
     }
 
-    public String getResponse(Request request) {
+    public Response getResponse(Request request) {
 
         return routeMap.getOrDefault(request.getPathName(), new FileContentHandler()).handle(request);
     }

@@ -15,7 +15,7 @@ import static java.util.stream.Collectors.joining;
 public class FileContentHandler implements HttpRequestHandler {
 
     @Override
-    public String handle(Request request) {
+    public Response handle(Request request) {
 
         String filePath = Constants.DIRECTORY_PATH + request.getPath();
 
@@ -28,14 +28,14 @@ public class FileContentHandler implements HttpRequestHandler {
                 Response response = new Response(200);
                 response.setResponseBody(readFile(filePath));
                 response.setResponseHeader("content-type", "text/plain");
-                return response.toString();
+                return response;
             } catch (IOException e) {
-                return new Response(404).toString();
+                return new Response(404);
             }
         }
 
         if (request.getRequestMethod() == RequestMethod.HEAD) {
-            return (request.getPath().equals("/")) ? new Response(200).toString() : new Response(404).toString();
+            return (request.getPath().equals("/")) ? new Response(200) : new Response(404);
         }
 
         if (request.getRequestMethod() == RequestMethod.POST && !(request.getRequestBody().equals(""))) {
@@ -51,7 +51,7 @@ public class FileContentHandler implements HttpRequestHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response.toString();
+            return response;
         }
 
         if (request.getRequestMethod() == RequestMethod.PUT && !(request.getRequestBody().equals(""))) {
@@ -62,7 +62,7 @@ public class FileContentHandler implements HttpRequestHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response.toString();
+            return response;
         }
 
         if (request.getRequestMethod() == RequestMethod.PATCH) {
@@ -73,7 +73,7 @@ public class FileContentHandler implements HttpRequestHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return response.toString();
+            return response;
         }
 
         if (request.getRequestMethod() == RequestMethod.DELETE) {
@@ -81,10 +81,10 @@ public class FileContentHandler implements HttpRequestHandler {
             File toDeleteFile = new File(filePath);
             if (toDeleteFile.exists() && !toDeleteFile.isDirectory())
                 toDeleteFile.delete();
-            return response.toString();
+            return response;
         }
 
-        return new Response(405).toString();
+        return new Response(405);
     }
 
     private boolean isImage(Request request) {

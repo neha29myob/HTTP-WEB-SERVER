@@ -5,11 +5,11 @@ import HttpResponse.Response;
 
 public class RedirectHandler implements HttpRequestHandler {
     @Override
-    public String handle(Request request) {
+    public Response handle(Request request) {
         Response response = new Response(302);
 
         response.setResponseHeader("Location", "/");
 
-        return response.toString();
+        return response;
     }
 }

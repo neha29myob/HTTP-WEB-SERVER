@@ -52,11 +52,11 @@ public class ResponseHandler implements Runnable {
         router.addRoute("/logs", new AuthHandler());
         router.addRoute("/", new DirectoryHandler());
 
-        String httpResponse = router.getResponse(request);
+        Response httpResponse = router.getResponse(request);
 
 
 
-        connection.getOutputStream().write(httpResponse.getBytes());
+        connection.getOutputStream().write(httpResponse.toString().getBytes());
 
     }
 

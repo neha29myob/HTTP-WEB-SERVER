@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 public class ImageHandler implements HttpRequestHandler {
 
     @Override
-    public String handle(Request request) {
+    public Response handle(Request request) {
         String filePath = Constants.DIRECTORY_PATH + request.getPath();
 
         Response response = new Response(200);
@@ -22,7 +22,7 @@ public class ImageHandler implements HttpRequestHandler {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        return response.toString();
+        return response;
     }
 
     private byte[] writeImageToResponseBody(String path) throws IOException {

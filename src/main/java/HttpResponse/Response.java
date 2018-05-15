@@ -21,7 +21,7 @@ public class Response {
         this.responseHeader.put(key, value);
     }
 
-    private String getResponseStatusLine() {
+    public String getResponseStatusLine() {
         return ("HTTP/1.1 " + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode));
     }
 
@@ -33,7 +33,7 @@ public class Response {
         this.responseBody = responseBody;
     }
 
-    private String getResponseHeader() {
+    public String getResponseHeader() {
 
         String responseHeaderString = "";
 //        responseHeader.forEach((k,v) -> {
@@ -43,6 +43,7 @@ public class Response {
         for (String headerKey : responseHeader.keySet()) {
             responseHeaderString = headerKey + ":" + responseHeader.get(headerKey) + CRLF;
         }
+
         return responseHeaderString;
     }
 

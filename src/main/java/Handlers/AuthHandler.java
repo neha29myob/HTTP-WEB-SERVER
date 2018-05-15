@@ -14,7 +14,7 @@ public class AuthHandler implements HttpRequestHandler {
 //    }
 
     @Override
-    public String handle(Request request) {
+    public Response handle(Request request) {
 
         System.out.println(request.getRequestHeader().keySet());
 
@@ -24,7 +24,7 @@ public class AuthHandler implements HttpRequestHandler {
            if(isUserAuthorized(usernamePassword)) {
                Response response = new Response(200);
                response.setResponseBody(getLogs());
-               return response.toString();
+               return response;
            }
        }
 
@@ -32,7 +32,7 @@ public class AuthHandler implements HttpRequestHandler {
         response.setResponseBody("Access Denied");
         response.setResponseHeader("Authorization", "Basic");
         response.setResponseHeader("WWW-Authenticate", "Basic");
-        return response.toString();
+        return response;
     }
 
     private String getLogs() {

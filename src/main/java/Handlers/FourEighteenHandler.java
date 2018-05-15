@@ -5,9 +5,9 @@ import HttpResponse.Response;
 
 public class FourEighteenHandler implements HttpRequestHandler {
     @Override
-    public String handle(Request request) {
+    public Response handle(Request request) {
         Response response = new Response(418);
         response.setResponseBody("I'm a teapot");
-        return response.toString();
+        return response;
     }
 }

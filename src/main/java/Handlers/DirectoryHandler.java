@@ -9,7 +9,7 @@ import java.io.File;
 public class DirectoryHandler implements HttpRequestHandler {
 
     @Override
-    public String handle(Request request) {
+    public Response handle(Request request) {
 
         File directoryPath = new File(Constants.DIRECTORY_PATH);
 
@@ -20,7 +20,7 @@ public class DirectoryHandler implements HttpRequestHandler {
             body += "<a href=/" + files.getName() + ">" + files.getName() + "</a></br>";
         }
         response.setResponseBody("<html> <body>" + body + "</body> <html>");
-        return response.toString();
+        return response;
 
 
 //        if (Arrays.asList(directoryPath.list()).contains(request.getPath())) {

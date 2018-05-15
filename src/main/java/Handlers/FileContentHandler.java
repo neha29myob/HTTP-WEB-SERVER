@@ -21,7 +21,7 @@ public class FileContentHandler implements HttpRequestHandler {
 
         if (request.getRequestMethod() == RequestMethod.GET) {
 
-            if(isImage(request)){
+            if (isImage(request)) {
                 return new ImageHandler().handle(request);
             }
             try {

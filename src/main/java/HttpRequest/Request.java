@@ -1,23 +1,15 @@
 package HttpRequest;
 
+import Handlers.HttpRequestHandler;
+
 import java.util.HashMap;
 
 public class Request {
     private RequestMethod requestMethod;
     private String path;
-    private HashMap<String,String> searchQuery;
+    private HashMap<String, String> searchQuery;
     private String pathName;
-
-    public HashMap<String, String> getRequestHeader() {
-        return requestHeader;
-    }
-
-    private HashMap<String,String> requestHeader;
-
-    public String getRequestBody() {
-        return requestBody;
-    }
-
+    private HashMap<String, String> requestHeader;
     private String requestBody;
 
     public Request(RequestMethod requestMethod, String pathName) {
@@ -25,42 +17,37 @@ public class Request {
         this.pathName = pathName;
     }
 
-    public void setPathName(String pathName) {
-        this.pathName = pathName;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getPathName() {
-        return pathName;
-    }
-
-    public RequestMethod getRequestMethod() {
-        return requestMethod;
-    }
+    public HashMap<String, String> getRequestHeader() { return requestHeader; }
 
     public void setRequestHeader(HashMap<String, String> requestHeader) {
         this.requestHeader = requestHeader;
     }
 
+    public String getRequestBody() { return requestBody; }
+
     public void setRequestBody(String requestBody) {
         this.requestBody = requestBody;
     }
 
-    public HashMap<String, String> getSearchQuery() {
-        return searchQuery;
+    public String getPath() { return path; }
+
+    public void setPath(String path) {
+        this.path = path;
     }
+
+    public String getPathName() { return pathName; }
+
+    public void setPathName(String pathName) {
+        this.pathName = pathName;
+    }
+
+    public RequestMethod getRequestMethod() { return requestMethod; }
+
+    public HashMap<String, String> getSearchQuery() { return searchQuery; }
 
     public void setSearchQuery(HashMap<String, String> searchRequest) {
         this.searchQuery = searchRequest;
     }
-
 
 
     @Override
@@ -74,4 +61,5 @@ public class Request {
                 ", requestBody='" + requestBody + '\'' +
                 '}';
     }
+
 }

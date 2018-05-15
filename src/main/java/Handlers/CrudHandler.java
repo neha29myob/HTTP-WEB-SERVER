@@ -44,11 +44,11 @@ public class CrudHandler implements HttpRequestHandler {
 
         if (this.data == null) {
 
-        //if (request.getRequestBody().equals("")) {
+            //if (request.getRequestBody().equals("")) {
             return new Response(404).toString();
         }
-            Response response = new Response(200);
-            response.setResponseBody(request.getRequestBody());
-            return response.toString();
+        Response response = new Response(200);
+        response.setResponseBody(request.getRequestBody());
+        return response.toString();
     }
 }

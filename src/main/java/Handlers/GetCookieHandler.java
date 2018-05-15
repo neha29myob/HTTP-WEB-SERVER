@@ -9,7 +9,7 @@ public class GetCookieHandler implements HttpRequestHandler {
         Response response = new Response(200);
         response.setResponseBody("Eat");
         String cookieValue = request.getSearchQuery().values().stream().findFirst().get();
-        response.setResponseHeader("Set-Cookie", cookieValue );
+        response.setResponseHeader("Set-Cookie", cookieValue);
         return response.toString();
     }
 }

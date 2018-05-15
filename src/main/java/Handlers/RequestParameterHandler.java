@@ -13,8 +13,8 @@ public class RequestParameterHandler implements HttpRequestHandler {
         Map<String, String> queryPairs = request.getSearchQuery();
 
         String body = "";
-        for(String headerKey: queryPairs.keySet()){
-            body+= headerKey + " = " + queryPairs.get(headerKey) + "\r\n";
+        for (String headerKey : queryPairs.keySet()) {
+            body += headerKey + " = " + queryPairs.get(headerKey) + "\r\n";
         }
         response.setResponseBody(body);
         return response.toString();

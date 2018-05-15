@@ -4,6 +4,7 @@ import HttpRequest.Request;
 import HttpResponse.Response;
 
 public class EatCookieHandler implements HttpRequestHandler {
+
     @Override
     public String handle(Request request) {
         Response response = new Response(200);

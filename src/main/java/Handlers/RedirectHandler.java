@@ -8,7 +8,7 @@ public class RedirectHandler implements HttpRequestHandler {
     public String handle(Request request) {
         Response response = new Response(302);
 
-        response.setResponseHeader("Location","/");
+        response.setResponseHeader("Location", "/");
 
         return response.toString();
     }

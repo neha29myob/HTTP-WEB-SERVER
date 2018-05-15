@@ -24,6 +24,9 @@ public class FileContentHandler implements HttpRequestHandler {
             if (isImage(request)) {
                 return new ImageHandler().handle(request);
             }
+            if(filePath.contains("partial_content")){
+              return new PartialContentHandler().handle(request);
+            }
             try {
                 Response response = new Response(200);
                 response.setResponseBody(readFile(filePath));
@@ -38,7 +41,9 @@ public class FileContentHandler implements HttpRequestHandler {
             return (request.getPath().equals("/")) ? new Response(200) : new Response(404);
         }
 
-        if (request.getRequestMethod() == RequestMethod.POST && !(request.getRequestBody().equals(""))) {
+        if (request.getRequestMethod() == RequestMethod.POST) {
+
+            if(request.getRequestBody().equals("")) return new Response(405);
 
             Response response = new Response(201);
             response.setResponseBody(request.getRequestBody());
@@ -54,7 +59,9 @@ public class FileContentHandler implements HttpRequestHandler {
             return response;
         }
 
-        if (request.getRequestMethod() == RequestMethod.PUT && !(request.getRequestBody().equals(""))) {
+        if (request.getRequestMethod() == RequestMethod.PUT) {
+            if(request.getRequestBody().equals("")) return new Response(405);
+
             Response response = new Response(200);
             response.setResponseBody(request.getRequestBody());
             try {

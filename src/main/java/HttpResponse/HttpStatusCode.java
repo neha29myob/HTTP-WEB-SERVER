@@ -15,8 +15,8 @@ public class HttpStatusCode {
         httpStatusCodeMap.put(405, "Method Not Allowed");
         httpStatusCodeMap.put(204, "No Content");
         httpStatusCodeMap.put(401, "Unauthorized");
+        httpStatusCodeMap.put(206, "Partial Content");
+        httpStatusCodeMap.put(416, "Range Not Satisfiable");
 
     }
 }
-
-//    put(206, "Partial Content");

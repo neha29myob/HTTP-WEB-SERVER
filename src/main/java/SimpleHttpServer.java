@@ -10,17 +10,16 @@ public class SimpleHttpServer {
 
     ExecutorService serverExecutorPool = Executors.newFixedThreadPool(10);
     private int port;
-    //private Router router;
 
     public SimpleHttpServer(int port) {
         this.port = port;
-        //this.router = new Router();
     }
 
     public void start() throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
+            Router router = new Router();
             while (true) {
-                serverExecutorPool.submit(new ResponseHandler(serverSocket.accept()));
+                serverExecutorPool.submit(new ResponseHandler(serverSocket.accept(),router));
             }
         } finally {
             serverExecutorPool.shutdown();

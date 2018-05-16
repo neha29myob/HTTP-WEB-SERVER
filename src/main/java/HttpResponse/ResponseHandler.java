@@ -1,22 +1,23 @@
 package HttpResponse;
 
-import HttpRequest.HTTPRequestParser;
-import HttpRequest.HttpRequestReader;
+import HttpRequest.RequestParser;
+import HttpRequest.RequestReader;
 import HttpRequest.Request;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseHandler implements Runnable {
     private Socket connection;
+    private Router router;
     public static List<String> logs = new ArrayList<>();
 
-    public ResponseHandler(Socket connection) {
+    public ResponseHandler(Socket connection, Router router) {
         this.connection = connection;
+        this.router = router;
     }
 
     public void run() {
@@ -30,28 +31,12 @@ public class ResponseHandler implements Runnable {
 
     private void processResponse(Socket connection) throws IOException {
 
-        InputStreamReader input = new InputStreamReader(connection.getInputStream());
-        HttpRequestReader requestReader = new HttpRequestReader(input);
-        String requestString = requestReader.readRequest();
-        HTTPRequestParser requestParser = new HTTPRequestParser();
-        Request request = requestParser.parseRequest(requestString);
-        logs.add(requestString.split("\r\n")[0]);
-
-        Router router = new Router();
-
+        String requestString = RequestReader.readRequest(new InputStreamReader(connection.getInputStream()));
+        Request request = RequestParser.parseRequest(requestString);
         Response httpResponse = router.getResponse(request);
+        ResponseWriter.writeResponse(httpResponse, connection.getOutputStream());
 
-        OutputStream outputStream = connection.getOutputStream();
-        writeResponse(httpResponse, outputStream);
-
-    }
-
-    private void writeResponse(Response httpResponse, OutputStream outputStream) throws IOException {
-        outputStream.write(httpResponse.getResponseStatusLine().getBytes());
-        outputStream.write(httpResponse.getResponseHeader().getBytes());
-        outputStream.write(httpResponse.getResponseBody());
-        outputStream.flush();
-        outputStream.close();
+        logs.add(requestString.split("\r\n")[0]);
     }
 
 }

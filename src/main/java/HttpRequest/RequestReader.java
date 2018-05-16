@@ -1,17 +1,15 @@
 package HttpRequest;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class HttpRequestReader {
-    private BufferedReader reader;
+public class RequestReader {
 
-    public HttpRequestReader(InputStreamReader incomingRequest) {
-        reader = new BufferedReader(incomingRequest);
-    }
+    public static String readRequest(InputStreamReader incomingRequest) throws IOException {
 
-    public String readRequest() throws IOException {
+        BufferedReader reader = new BufferedReader(incomingRequest);
         int line;
         StringBuilder input = new StringBuilder();
         do {

@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class HTTPRequestParser {
+public class RequestParser {
 
-    public Request parseRequest(String requestString) {
+    public static Request parseRequest(String requestString) {
 
         String[] httpRequest = requestString.split("\r\n\r\n", 2);
 
@@ -34,7 +34,7 @@ public class HTTPRequestParser {
 
     }
 
-    private HashMap<String, String> createRequestHeader(List<String> headerList) {
+    private static HashMap<String, String> createRequestHeader(List<String> headerList) {
         HashMap<String, String> requestHeaderMap = new HashMap<>();
 
         headerList.forEach(headerItem -> {
@@ -45,7 +45,7 @@ public class HTTPRequestParser {
     }
 
 
-    private String getQuery(String path) {
+    private static String getQuery(String path) {
         if (path.split("\\?").length == 2) {
             System.out.println("searchQuery" + path.split("\\?")[1]);
             return path.split("\\?")[1];
@@ -54,7 +54,7 @@ public class HTTPRequestParser {
 
     }
 
-    private Request createRequestLine(String requestLine) {
+    private static Request createRequestLine(String requestLine) {
 
         RequestMethod requestMethod = getRequestMethod(requestLine);
         String path = requestLine.split(" ")[1];
@@ -62,7 +62,7 @@ public class HTTPRequestParser {
         return new Request(requestMethod, pathName);
     }
 
-    private RequestMethod getRequestMethod(String requestLine) {
+    private static RequestMethod getRequestMethod(String requestLine) {
         try{
             return RequestMethod.valueOf(requestLine.split(" ")[0]);
         }catch (IllegalArgumentException e){
@@ -70,7 +70,7 @@ public class HTTPRequestParser {
         }
     }
 
-    public HashMap<String, String> getQueryParameters(String path) {
+    public static HashMap<String, String> getQueryParameters(String path) {
         HashMap<String, String> parameterPair = new HashMap<>();
         String[] parameters = getQuery(path).split("&");
         for (String parameter : parameters) {

@@ -61,7 +61,6 @@ public class FileContentHandler implements HttpRequestHandler {
 
         if (request.getRequestMethod() == RequestMethod.PUT) {
             if(request.getRequestBody().equals("")) return new Response(405);
-
             Response response = new Response(200);
             response.setResponseBody(request.getRequestBody());
             try {

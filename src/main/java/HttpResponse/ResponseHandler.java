@@ -1,6 +1,5 @@
 package HttpResponse;
 
-import Handlers.*;
 import HttpRequest.HTTPRequestParser;
 import HttpRequest.HttpRequestReader;
 import HttpRequest.Request;
@@ -24,7 +23,7 @@ public class ResponseHandler implements Runnable {
         System.out.println(Thread.currentThread().getName() + "Thread started:");
         try (Socket c = connection) {
             processResponse(c);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -38,25 +37,11 @@ public class ResponseHandler implements Runnable {
         Request request = requestParser.parseRequest(requestString);
         logs.add(requestString.split("\r\n")[0]);
 
-        Router router = new Router(request);
-
-        router.addRoute("/form", new DefaultOkHandler());
-        router.addRoute("/put-target", new DefaultOkHandler());
-        router.addRoute("/method_options", new OptionsHandler());
-        router.addRoute("/method_options2", new OptionsHandler());
-        router.addRoute("/redirect", new RedirectHandler());
-        router.addRoute("/coffee", new FourEighteenHandler());
-        router.addRoute("/tea", new DefaultOkHandler());
-        router.addRoute("/parameters", new RequestParameterHandler());
-        router.addRoute("/cookie", new GetCookieHandler());
-        router.addRoute("/eat_cookie", new EatCookieHandler());
-        router.addRoute("/logs", new AuthHandler());
-        router.addRoute("/", new DirectoryHandler());
+        Router router = new Router();
 
         Response httpResponse = router.getResponse(request);
 
-       OutputStream outputStream = connection.getOutputStream();
-       // outputStream.write(httpResponse.toString().getBytes());
+        OutputStream outputStream = connection.getOutputStream();
         writeResponse(httpResponse, outputStream);
 
     }

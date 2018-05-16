@@ -7,5 +7,5 @@ public enum RequestMethod {
     PUT,
     DELETE,
     PATCH,
-    OPTIONS
+    BAD, OPTIONS
 }

@@ -1,7 +1,6 @@
 package HttpResponse;
 
-import Handlers.FileContentHandler;
-import Handlers.HttpRequestHandler;
+import Handlers.*;
 import HttpRequest.Request;
 
 import java.util.HashMap;
@@ -9,19 +8,23 @@ import java.util.HashMap;
 public class Router {
 
     HashMap<String, HttpRequestHandler> routeMap = new HashMap<>();
-    private Request request;
 
-
-    public Router(Request request) {
-        this.request = request;
-    }
-
-    public void addRoute(String path, HttpRequestHandler handler) {
-        routeMap.put(path, handler);
+    public Router() {
+        routeMap.put("/form", new DefaultOkHandler());
+        routeMap.put("/put-target", new DefaultOkHandler());
+        routeMap.put("/method_options", new OptionsHandler());
+        routeMap.put("/method_options2", new OptionsHandler());
+        routeMap.put("/redirect", new RedirectHandler());
+        routeMap.put("/coffee", new FourEighteenHandler());
+        routeMap.put("/tea", new DefaultOkHandler());
+        routeMap.put("/parameters", new RequestParameterHandler());
+        routeMap.put("/cookie", new GetCookieHandler());
+        routeMap.put("/eat_cookie", new EatCookieHandler());
+        routeMap.put("/logs", new AuthHandler());
+        routeMap.put("/", new DirectoryHandler());
     }
 
     public Response getResponse(Request request) {
-
         return routeMap.getOrDefault(request.getPathName(), new FileContentHandler()).handle(request);
     }
 }

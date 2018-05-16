@@ -12,6 +12,7 @@ public class DefaultOkHandler implements HttpRequestHandler {
         if (!request.getRequestBody().equals("")) {
             response.setResponseBody(request.getRequestBody());
         }
+
         return response;
     }
 }

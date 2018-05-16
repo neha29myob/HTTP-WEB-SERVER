@@ -21,23 +21,22 @@ public class DirectoryHandler implements HttpRequestHandler {
             Response response = new Response(200);
             File directoryPath = new File(Constants.DIRECTORY_PATH);
 
-            String body = getFilesInDirectory(directoryPath);
+            String body = getFilesInDirectory(directoryPath, "");
 
             response.setResponseBody("<html> <body>" + body + "</body> <html>");
             return response;
 
         }
-return new Response(405);
+            return new Response(405);
     }
 
-            public String getFilesInDirectory(File directoryPath) {
+            public String getFilesInDirectory(File directoryPath, String body) {
                 //File directoryPath = new File(Constants.DIRECTORY_PATH);
-                String body = "";
                 for (File files : directoryPath.listFiles()) {
                     if (files.isFile()) {
                         body += "<a href=/" + files.getName() + ">" + files.getName() + "</a></br>";
                     } else if (files.isDirectory()) {
-                        getFilesInDirectory(files.getAbsoluteFile());
+                        getFilesInDirectory(files.getAbsoluteFile(), body);
                         body += "<a href=/" + files.getName() + ">" + files.getName() + "</a></br>";
                     }
                 }

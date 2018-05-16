@@ -15,6 +15,8 @@ public class Response {
 
     public Response(int statusCode) {
         this.statusCode = statusCode;
+        this.responseBody = "".getBytes();
+
     }
 
     public void setResponseHeader(String key, String value) {

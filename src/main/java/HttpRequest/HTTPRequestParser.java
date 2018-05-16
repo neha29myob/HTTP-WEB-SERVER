@@ -1,7 +1,6 @@
 package HttpRequest;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -56,10 +55,19 @@ public class HTTPRequestParser {
     }
 
     private Request createRequestLine(String requestLine) {
-        RequestMethod requestMethod = RequestMethod.valueOf(requestLine.split(" ")[0]);
+
+        RequestMethod requestMethod = getRequestMethod(requestLine);
         String path = requestLine.split(" ")[1];
         String pathName = path.split("\\?")[0];
         return new Request(requestMethod, pathName);
+    }
+
+    private RequestMethod getRequestMethod(String requestLine) {
+        try{
+            return RequestMethod.valueOf(requestLine.split(" ")[0]);
+        }catch (IllegalArgumentException e){
+            return RequestMethod.BAD;
+        }
     }
 
     public HashMap<String, String> getQueryParameters(String path) {

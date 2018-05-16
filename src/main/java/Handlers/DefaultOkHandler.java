@@ -7,11 +7,11 @@ public class DefaultOkHandler implements HttpRequestHandler {
 
     @Override
     public Response handle(Request request) {
+        Response response = new Response(200);
 
-        return new Response(200);
-        //if (request.getRequestMethod().equals(RequestMethod.GET)) {
-        //return "HTTP/1.1 200 OK\r\n\r\n" + "Today's Date is: " + new Date();
-        //}
-        //return "";
+        if (!request.getRequestBody().equals("")) {
+            response.setResponseBody(request.getRequestBody());
+        }
+        return response;
     }
 }

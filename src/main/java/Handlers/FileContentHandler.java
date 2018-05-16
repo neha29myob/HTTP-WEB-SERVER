@@ -18,6 +18,7 @@ public class FileContentHandler implements HttpRequestHandler {
     public Response handle(Request request) {
 
         String filePath = Constants.DIRECTORY_PATH + request.getPath();
+        System.out.println("Method   jklj"+request.getRequestMethod());
 
         if (request.getRequestMethod() == RequestMethod.GET) {
 
@@ -37,9 +38,9 @@ public class FileContentHandler implements HttpRequestHandler {
             }
         }
 
-        if (request.getRequestMethod() == RequestMethod.HEAD) {
-            return (request.getPath().equals("/")) ? new Response(200) : new Response(404);
-        }
+//        if (request.getRequestMethod() == RequestMethod.HEAD) {
+//            return (request.getPathName().equals("/")) ? new Response(200) : new Response(404);
+//        }
 
         if (request.getRequestMethod() == RequestMethod.POST) {
 

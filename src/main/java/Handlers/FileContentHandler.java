@@ -18,7 +18,6 @@ public class FileContentHandler implements HttpRequestHandler {
     public Response handle(Request request) {
 
         String filePath = Constants.DIRECTORY_PATH + request.getPathName();
-        System.out.println("filepath "+ filePath);
 
         if (request.getRequestMethod() == RequestMethod.GET) {
 

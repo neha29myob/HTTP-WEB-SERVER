@@ -10,32 +10,29 @@ public class RequestParser {
 
     public static Request parseRequest(String requestString) {
 
-        String[] httpRequest = requestString.split("\r\n\r\n", 2);
-
-        String httpRequestHeader = httpRequest[0];
-
-        String requestLine = httpRequestHeader.split("\r\n", 2)[0];
-        String requestHeader = httpRequestHeader.split("\r\n", 2)[1];
+        String[] httpRequest = requestString.split("\r\n\r\n",2);
+        String[] requestHeader = httpRequest[0].split("\r\n", 2);
+        String requestLine = requestHeader[0];
 
         Request request = createRequestLine(requestLine);
-        //request.setPath(requestLine.split(" ")[1]);
+        request.setRequestHeader(createRequestHeader(requestHeader[1]));
+        request.setRequestBody(httpRequest[1]);
 
-        if (!(getQuery(requestLine.split(" ")[1]).isEmpty())) {
+        if (isRequestWithSearchQuery(requestLine)) {
             HashMap<String, String> queryPairs = getQueryParameters(requestLine.split(" ")[1]);
             request.setSearchQuery(queryPairs);
         }
-
-        List<String> headerList = Arrays.asList(requestHeader.split("\r\n"));
-
-        request.setRequestHeader(createRequestHeader(headerList));
-        request.setRequestBody(httpRequest[1]);
-
         return request;
-
     }
 
-    private static HashMap<String, String> createRequestHeader(List<String> headerList) {
+    public static boolean isRequestWithSearchQuery(String requestLine) {
+        return !(getQuery(requestLine.split(" ")[1]).isEmpty());
+    }
+
+
+    private static HashMap<String, String> createRequestHeader(String headers) {
         HashMap<String, String> requestHeaderMap = new HashMap<>();
+        List<String> headerList = Arrays.asList(headers.split("\r\n"));
 
         headerList.forEach(headerItem -> {
             String[] keyValue = headerItem.split(":");
@@ -47,15 +44,12 @@ public class RequestParser {
 
     private static String getQuery(String path) {
         if (path.split("\\?").length == 2) {
-            System.out.println("searchQuery" + path.split("\\?")[1]);
             return path.split("\\?")[1];
         }
         return "";
-
     }
 
     private static Request createRequestLine(String requestLine) {
-
         RequestMethod requestMethod = getRequestMethod(requestLine);
         String path = requestLine.split(" ")[1];
         String pathName = path.split("\\?")[0];

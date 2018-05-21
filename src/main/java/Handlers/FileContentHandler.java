@@ -17,12 +17,16 @@ public class FileContentHandler implements HttpRequestHandler {
     @Override
     public Response handle(Request request) {
 
-        String filePath = Constants.DIRECTORY_PATH + request.getPath();
+        String filePath = Constants.DIRECTORY_PATH + request.getPathName();
+        System.out.println("filepath "+ filePath);
 
         if (request.getRequestMethod() == RequestMethod.GET) {
 
             if (isImage(request)) {
                 return new ImageHandler().handle(request);
+            }
+            if (filePath.contains("partial_content")) {
+                return new PartialContentHandler().handle(request);
             }
             try {
                 Response response = new Response(200);
@@ -35,15 +39,17 @@ public class FileContentHandler implements HttpRequestHandler {
         }
 
         if (request.getRequestMethod() == RequestMethod.HEAD) {
-            return (request.getPath().equals("/")) ? new Response(200) : new Response(404);
+            return (request.getPathName().equals("/")) ? new Response(200) : new Response(404);
         }
 
-        if (request.getRequestMethod() == RequestMethod.POST && !(request.getRequestBody().equals(""))) {
+        if (request.getRequestMethod() == RequestMethod.POST) {
+
+            if (request.getRequestBody().equals("")) return new Response(405);
 
             Response response = new Response(201);
             response.setResponseBody(request.getRequestBody());
 
-            String catFormFile = request.getPath() + "/" + request.getRequestBody().split("=")[0];
+            String catFormFile = request.getPathName() + "/" + request.getRequestBody().split("=")[0];
             response.setResponseHeader("Location", catFormFile);
             File file = new File(Constants.DIRECTORY_PATH + catFormFile);
             try {
@@ -54,7 +60,8 @@ public class FileContentHandler implements HttpRequestHandler {
             return response;
         }
 
-        if (request.getRequestMethod() == RequestMethod.PUT && !(request.getRequestBody().equals(""))) {
+        if (request.getRequestMethod() == RequestMethod.PUT) {
+            if (request.getRequestBody().equals("")) return new Response(405);
             Response response = new Response(200);
             response.setResponseBody(request.getRequestBody());
             try {
@@ -88,7 +95,7 @@ public class FileContentHandler implements HttpRequestHandler {
     }
 
     private boolean isImage(Request request) {
-        return request.getPath().contains(".png") || request.getPath().contains(".jpeg") || request.getPath().contains(".gif");
+        return request.getPathName().contains(".png") || request.getPathName().contains(".jpeg") || request.getPathName().contains(".gif");
     }
 
 

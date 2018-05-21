@@ -12,10 +12,10 @@ public class ImageHandler implements HttpRequestHandler {
 
     @Override
     public Response handle(Request request) {
-        String filePath = Constants.DIRECTORY_PATH + request.getPath();
+        String filePath = Constants.DIRECTORY_PATH + request.getPathName();
 
         Response response = new Response(200);
-        response.setResponseHeader("Content-type:", "image/" + request.getPath().split("\\.")[1]);
+        response.setResponseHeader("Content-type:", "image/" + request.getPathName().split("\\.")[1]);
         try {
             response.setResponseBody(writeImageToResponseBody(filePath));
         } catch (IOException e) {

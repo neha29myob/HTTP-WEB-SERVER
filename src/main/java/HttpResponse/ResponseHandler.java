@@ -1,8 +1,8 @@
 package HttpResponse;
 
+import HttpRequest.Request;
 import HttpRequest.RequestParser;
 import HttpRequest.RequestReader;
-import HttpRequest.Request;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseHandler implements Runnable {
+    public static List<String> logs = new ArrayList<>();
     private Socket connection;
     private Router router;
-    public static List<String> logs = new ArrayList<>();
 
     public ResponseHandler(Socket connection, Router router) {
         this.connection = connection;
@@ -21,7 +21,6 @@ public class ResponseHandler implements Runnable {
     }
 
     public void run() {
-        System.out.println(Thread.currentThread().getName() + "Thread started:");
         try (Socket c = connection) {
             processResponse(c);
         } catch (Exception e) {

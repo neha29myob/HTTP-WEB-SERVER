@@ -9,10 +9,6 @@ public class Response {
     private HashMap<String, String> responseHeader = new HashMap<>();
     private byte[] responseBody;
 
-//    public void setResponseImage(byte[] responseImage) {
-//        this.responseImage = responseImage;
-//    }
-
     public Response(int statusCode) {
         this.statusCode = statusCode;
         this.responseBody = "".getBytes();
@@ -31,12 +27,12 @@ public class Response {
         return responseBody;
     }
 
-    public void setResponseBody(String responseBody) {
-        this.responseBody = responseBody.getBytes();
-    }
-
     public void setResponseBody(byte[] responseBody) {
         this.responseBody = responseBody;
+    }
+
+    public void setResponseBody(String responseBody) {
+        this.responseBody = responseBody.getBytes();
     }
 
     public String getResponseHeader() {

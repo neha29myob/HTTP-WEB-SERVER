@@ -27,23 +27,23 @@ public class DirectoryHandler implements HttpRequestHandler {
             return response;
 
         }
-            return new Response(405);
+        return new Response(405);
     }
 
-            public String getFilesInDirectory(File directoryPath, String body) {
-                //File directoryPath = new File(Constants.DIRECTORY_PATH);
-                for (File files : directoryPath.listFiles()) {
-                    if (files.isFile()) {
-                        body += "<a href=/" + files.getName() + ">" + files.getName() + "</a></br>";
-                    } else if (files.isDirectory()) {
-                        getFilesInDirectory(files.getAbsoluteFile(), body);
-                        body += "<a href=/" + files.getName() + ">" + files.getName() + "</a></br>";
-                    }
-                }
-                return body;
+    public String getFilesInDirectory(File directoryPath, String body) {
+        //File directoryPath = new File(Constants.DIRECTORY_PATH);
+        for (File files : directoryPath.listFiles()) {
+            if (files.isFile()) {
+                body += "<a href=/" + files.getName() + ">" + files.getName() + "</a></br>";
+            } else if (files.isDirectory()) {
+                getFilesInDirectory(files.getAbsoluteFile(), body);
+                body += "<a href=/" + files.getName() + ">" + files.getName() + "</a></br>";
             }
-
         }
+        return body;
+    }
+
+}
 
 
 //        if (Arrays.asList(directoryPath.list()).contains(request.getPath())) {

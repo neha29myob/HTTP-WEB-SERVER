@@ -18,9 +18,9 @@ public class RequestParser {
         String requestHeader = httpRequestHeader.split("\r\n", 2)[1];
 
         Request request = createRequestLine(requestLine);
-        request.setPath(requestLine.split(" ")[1]);
+        //request.setPath(requestLine.split(" ")[1]);
 
-        if (!(getQuery(request.getPath()).isEmpty())) {
+        if (!(getQuery(requestLine.split(" ")[1]).isEmpty())) {
             HashMap<String, String> queryPairs = getQueryParameters(requestLine.split(" ")[1]);
             request.setSearchQuery(queryPairs);
         }
@@ -63,9 +63,9 @@ public class RequestParser {
     }
 
     private static RequestMethod getRequestMethod(String requestLine) {
-        try{
+        try {
             return RequestMethod.valueOf(requestLine.split(" ")[0]);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return RequestMethod.BAD;
         }
     }

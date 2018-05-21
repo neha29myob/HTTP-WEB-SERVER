@@ -19,7 +19,7 @@ public class SimpleHttpServer {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             Router router = new Router();
             while (true) {
-                serverExecutorPool.submit(new ResponseHandler(serverSocket.accept(),router));
+                serverExecutorPool.submit(new ResponseHandler(serverSocket.accept(), router));
             }
         } finally {
             serverExecutorPool.shutdown();

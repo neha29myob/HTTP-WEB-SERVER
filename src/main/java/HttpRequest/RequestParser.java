@@ -25,7 +25,7 @@ public class RequestParser {
         return request;
     }
 
-    public static boolean isRequestWithSearchQuery(String requestLine) {
+    private static boolean isRequestWithSearchQuery(String requestLine) {
         return !(getQuery(requestLine.split(" ")[1]).isEmpty());
     }
 

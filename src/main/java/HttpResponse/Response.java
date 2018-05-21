@@ -1,10 +1,12 @@
 package HttpResponse;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Response {
 
     private static String CRLF = "\r\n";
+    private String HTTP_PROTOCOL = "HTTP/1.1 ";
     private int statusCode;
     private HashMap<String, String> responseHeader = new HashMap<>();
     private byte[] responseBody;
@@ -12,15 +14,12 @@ public class Response {
     public Response(int statusCode) {
         this.statusCode = statusCode;
         this.responseBody = "".getBytes();
-
     }
 
-    public void setResponseHeader(String key, String value) {
-        this.responseHeader.put(key, value);
-    }
+    public void setResponseHeader(String key, String value) { this.responseHeader.put(key, value); }
 
     public String getResponseStatusLine() {
-        return ("HTTP/1.1 " + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode)) + CRLF;
+        return (HTTP_PROTOCOL + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode)) + CRLF;
     }
 
     public byte[] getResponseBody() {
@@ -36,16 +35,10 @@ public class Response {
     }
 
     public String getResponseHeader() {
-
-        String responseHeaderString = "";
-//        responseHeader.forEach((k,v) -> {
-//            responseHeaderString =  k + ":" + v;
-//        });
-
-        for (String headerKey : responseHeader.keySet()) {
-            responseHeaderString = headerKey + ":" + responseHeader.get(headerKey) + CRLF;
-        }
-
+        String responseHeaderString = responseHeader.entrySet()
+                .stream()
+                .map(map -> map.getKey() + ":" + map.getValue() + CRLF)
+                .collect(Collectors.joining(""));
         return responseHeaderString + CRLF;
     }
 

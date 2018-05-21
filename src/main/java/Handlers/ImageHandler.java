@@ -25,7 +25,6 @@ public class ImageHandler implements HttpRequestHandler {
     }
 
     private byte[] writeImageToResponseBody(String path) throws IOException {
-
         return Files.readAllBytes(Paths.get(path));
     }
 }

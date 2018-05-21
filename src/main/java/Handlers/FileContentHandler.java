@@ -19,22 +19,10 @@ public class FileContentHandler implements HttpRequestHandler {
 
         String filePath = Constants.DIRECTORY_PATH + request.getPathName();
 
-        if (request.getRequestMethod() == RequestMethod.GET) {
 
-            if (isImage(request)) {
-                return new ImageHandler().handle(request);
-            }
-            if (filePath.contains("partial_content")) {
-                return new PartialContentHandler().handle(request);
-            }
-            try {
-                Response response = new Response(200);
-                response.setResponseBody(readFile(filePath));
-                response.setResponseHeader("content-type", "text/plain");
-                return response;
-            } catch (IOException e) {
-                return new Response(404);
-            }
+
+        if (request.getRequestMethod() == RequestMethod.GET) {
+            return getResponse(request, filePath);
         }
 
         if (request.getRequestMethod() == RequestMethod.HEAD) {
@@ -42,61 +30,92 @@ public class FileContentHandler implements HttpRequestHandler {
         }
 
         if (request.getRequestMethod() == RequestMethod.POST) {
-
-            if (request.getRequestBody().equals("")) return new Response(405);
-
-            Response response = new Response(201);
-            response.setResponseBody(request.getRequestBody());
-
-            String catFormFile = request.getPathName() + "/" + request.getRequestBody().split("=")[0];
-            response.setResponseHeader("Location", catFormFile);
-            File file = new File(Constants.DIRECTORY_PATH + catFormFile);
-            try {
-                writeToFile(file.toString(), request.getRequestBody());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return response;
+            return postResponse(request);
         }
 
         if (request.getRequestMethod() == RequestMethod.PUT) {
-            if (request.getRequestBody().equals("")) return new Response(405);
-            Response response = new Response(200);
-            response.setResponseBody(request.getRequestBody());
-            try {
-                writeToFile(filePath, request.getRequestBody());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return response;
+            return putResponse(request, filePath);
         }
 
         if (request.getRequestMethod() == RequestMethod.PATCH) {
-            Response response = new Response(204);
-            response.setResponseBody(request.getRequestBody());
-            try {
-                writeToFile(filePath, request.getRequestBody());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return response;
+            return patchResponse(request, filePath);
         }
 
         if (request.getRequestMethod() == RequestMethod.DELETE) {
-            Response response = new Response(200);
-            File toDeleteFile = new File(filePath);
-            if (toDeleteFile.exists() && !toDeleteFile.isDirectory())
-                toDeleteFile.delete();
-            return response;
+            return deleteResponse(filePath);
         }
 
         return new Response(405);
     }
 
+    public Response deleteResponse(String filePath) {
+        Response response = new Response(200);
+        File toDeleteFile = new File(filePath);
+        if (toDeleteFile.exists() && !toDeleteFile.isDirectory())
+            toDeleteFile.delete();
+        return response;
+    }
+
+    public Response patchResponse(Request request, String filePath) {
+        Response response = new Response(204);
+        response.setResponseBody(request.getRequestBody());
+        try {
+            writeToFile(filePath, request.getRequestBody());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public Response putResponse(Request request, String filePath) {
+        if (request.getRequestBody().equals("")) return new Response(405);
+        Response response = new Response(200);
+        response.setResponseBody(request.getRequestBody());
+        try {
+            writeToFile(filePath, request.getRequestBody());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public Response postResponse(Request request) {
+        if (request.getRequestBody().equals("")) return new Response(405);
+
+        Response response = new Response(201);
+        response.setResponseBody(request.getRequestBody());
+
+        String catFormFile = request.getPathName() + "/" + request.getRequestBody().split("=")[0];
+        response.setResponseHeader("Location", catFormFile);
+        File file = new File(Constants.DIRECTORY_PATH + catFormFile);
+        try {
+            writeToFile(file.toString(), request.getRequestBody());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public Response getResponse(Request request, String filePath) {
+        if (isImage(request)) {
+            return new ImageHandler().handle(request);
+        }
+        if (filePath.contains("partial_content")) {
+            return new PartialContentHandler().handle(request);
+        }
+        try {
+            Response response = new Response(200);
+            response.setResponseBody(readFile(filePath));
+            response.setResponseHeader("content-type", "text/plain");
+            return response;
+        } catch (IOException e) {
+            return new Response(404);
+        }
+    }
+
     private boolean isImage(Request request) {
         return request.getPathName().contains(".png") || request.getPathName().contains(".jpeg") || request.getPathName().contains(".gif");
     }
-
 
     private void writeToFile(String catFormFile, String requestBody) throws IOException {
         BufferedWriter fileWriter = new BufferedWriter(new FileWriter(catFormFile));

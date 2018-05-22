@@ -7,9 +7,7 @@ public class PartialContentHandler implements HttpRequestHandler {
 
     @Override
     public Response handle(Request request) {
-//
         String range = request.getRequestHeader().get("Range").split("=")[1];
-        System.out.println("range " + range);
 
         if (range.startsWith("0")) {
             Response response = new Response(206);

@@ -9,26 +9,22 @@ public class Request {
     private HashMap<String, String> requestHeader;
     private String requestBody;
 
-    public Request(RequestMethod requestMethod, String pathName) {
+    public Request(RequestMethod requestMethod, String pathName, HashMap<String, String> requestHeader , String requestBody, HashMap<String, String> searchQuery) {
         this.requestMethod = requestMethod;
+        this.searchQuery = searchQuery;
         this.pathName = pathName;
-    }
-
-    public HashMap<String, String> getRequestHeader() {
-        return requestHeader;
-    }
-
-    public void setRequestHeader(HashMap<String, String> requestHeader) {
         this.requestHeader = requestHeader;
+        this.requestBody = requestBody;
+    }
+
+    public HashMap<String, String> getRequestHeaders() {
+        return requestHeader;
     }
 
     public String getRequestBody() {
         return requestBody;
     }
 
-    public void setRequestBody(String requestBody) {
-        this.requestBody = requestBody;
-    }
 
     public String getPathName() {
         return pathName;
@@ -41,11 +37,6 @@ public class Request {
     public HashMap<String, String> getSearchQuery() {
         return searchQuery;
     }
-
-    public void setSearchQuery(HashMap<String, String> searchRequest) {
-        this.searchQuery = searchRequest;
-    }
-
 
     @Override
     public String toString() {

@@ -12,7 +12,7 @@ public class AuthHandler implements HttpRequestHandler {
     @Override
     public Response handle(Request request) {
 
-        String authorizationValue = request.getRequestHeader().getOrDefault("Authorization", notAuthorizedResponse().toString());
+        String authorizationValue = request.getRequestHeaders().getOrDefault("Authorization", notAuthorizedResponse().toString());
         return isUserAuthorized(authorizationValue.split(" ")[1]) ? authorizedResponse() : notAuthorizedResponse();
     }
 

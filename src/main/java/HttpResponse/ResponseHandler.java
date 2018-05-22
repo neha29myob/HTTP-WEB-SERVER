@@ -31,7 +31,8 @@ public class ResponseHandler implements Runnable {
     private void processResponse(Socket connection) throws IOException {
 
         String requestString = RequestReader.readRequest(new InputStreamReader(connection.getInputStream()));
-        Request request = RequestParser.parseRequest(requestString);
+        RequestParser requestParser = new RequestParser();
+        Request request = requestParser.parseRequest(requestString);
         Response httpResponse = router.getResponse(request);
         ResponseWriter.writeResponse(httpResponse, connection.getOutputStream());
 

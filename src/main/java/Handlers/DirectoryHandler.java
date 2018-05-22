@@ -24,7 +24,6 @@ public class DirectoryHandler implements HttpRequestHandler {
 
             response.setResponseBody("<html> <body>" + body + "</body> <html>");
             return response;
-
         }
         return new Response(405);
     }

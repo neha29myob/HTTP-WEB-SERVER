@@ -10,7 +10,7 @@ public class RequestParser {
 
     public static Request parseRequest(String requestString) {
 
-        String[] httpRequest = requestString.split("\r\n\r\n",2);
+        String[] httpRequest = requestString.split("\r\n\r\n", 2);
         String[] requestHeader = httpRequest[0].split("\r\n", 2);
         String requestLine = requestHeader[0];
 
@@ -28,7 +28,6 @@ public class RequestParser {
     private static boolean isRequestWithSearchQuery(String requestLine) {
         return !(getQuery(requestLine.split(" ")[1]).isEmpty());
     }
-
 
     private static HashMap<String, String> createRequestHeader(String headers) {
         HashMap<String, String> requestHeaderMap = new HashMap<>();
@@ -66,16 +65,21 @@ public class RequestParser {
 
     public static HashMap<String, String> getQueryParameters(String path) {
         HashMap<String, String> parameterPair = new HashMap<>();
-        String[] parameters = getQuery(path).split("&");
-        for (String parameter : parameters) {
-            int idx = parameter.indexOf("=");
-            try {
-                parameterPair.put(parameter.substring(0, idx), URLDecoder.decode(parameter.substring(idx + 1), "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
+        List<String> parameters = Arrays.asList(getQuery(path).split("&"));
+        parameters.forEach(parameter -> {
+            int keyIndex = parameter.indexOf("=");
+            createQueryParameterMap(parameterPair, parameter, keyIndex);
+        });
+
         return parameterPair;
+    }
+
+    public static void createQueryParameterMap(HashMap<String, String> parameterPair, String parameter, int keyIndex) {
+        try {
+            parameterPair.put(parameter.substring(0, keyIndex), URLDecoder.decode(parameter.substring(keyIndex + 1), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
 }

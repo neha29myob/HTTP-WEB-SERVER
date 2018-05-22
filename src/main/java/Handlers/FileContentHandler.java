@@ -19,8 +19,6 @@ public class FileContentHandler implements HttpRequestHandler {
 
         String filePath = Constants.DIRECTORY_PATH + request.getPathName();
 
-
-
         if (request.getRequestMethod() == RequestMethod.GET) {
             return getResponse(request, filePath);
         }
@@ -48,38 +46,7 @@ public class FileContentHandler implements HttpRequestHandler {
         return new Response(405);
     }
 
-    public Response deleteResponse(String filePath) {
-        Response response = new Response(200);
-        File toDeleteFile = new File(filePath);
-        if (toDeleteFile.exists() && !toDeleteFile.isDirectory())
-            toDeleteFile.delete();
-        return response;
-    }
-
-    public Response patchResponse(Request request, String filePath) {
-        Response response = new Response(204);
-        response.setResponseBody(request.getRequestBody());
-        try {
-            writeToFile(filePath, request.getRequestBody());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
-
-    public Response putResponse(Request request, String filePath) {
-        if (request.getRequestBody().equals("")) return new Response(405);
-        Response response = new Response(200);
-        response.setResponseBody(request.getRequestBody());
-        try {
-            writeToFile(filePath, request.getRequestBody());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return response;
-    }
-
-    public Response postResponse(Request request) {
+    private Response postResponse(Request request) {
         if (request.getRequestBody().equals("")) return new Response(405);
 
         Response response = new Response(201);
@@ -96,13 +63,44 @@ public class FileContentHandler implements HttpRequestHandler {
         return response;
     }
 
-    public Response getResponse(Request request, String filePath) {
-        if (isImage(request)) {
-            return new ImageHandler().handle(request);
+    private Response deleteResponse(String filePath) {
+        Response response = new Response(200);
+        File toDeleteFile = new File(filePath);
+        if (toDeleteFile.exists() && !toDeleteFile.isDirectory())
+            toDeleteFile.delete();
+        return response;
+    }
+
+    private Response patchResponse(Request request, String filePath) {
+        Response response = new Response(204);
+        response.setResponseBody(request.getRequestBody());
+        try {
+            writeToFile(filePath, request.getRequestBody());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if (filePath.contains("partial_content")) {
-            return new PartialContentHandler().handle(request);
+        return response;
+    }
+
+    private Response putResponse(Request request, String filePath) {
+        if (request.getRequestBody().equals("")) return new Response(405);
+        Response response = new Response(200);
+        response.setResponseBody(request.getRequestBody());
+        try {
+            writeToFile(filePath, request.getRequestBody());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return response;
+    }
+
+
+    private Response getResponse(Request request, String filePath) {
+
+        if (isImage(request)) { return new ImageHandler().handle(request); }
+
+        if (filePath.contains("partial_content")) { return new PartialContentHandler().handle(request); }
+
         try {
             Response response = new Response(200);
             response.setResponseBody(readFile(filePath));

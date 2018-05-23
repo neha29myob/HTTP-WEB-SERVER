@@ -31,7 +31,6 @@ public class DirectoryHandler implements HttpRequestHandler {
         return response;
     }
 
-
     private String getFilesInDirectory(File directoryPath) {
 
         String body = Arrays.stream(directoryPath.list())

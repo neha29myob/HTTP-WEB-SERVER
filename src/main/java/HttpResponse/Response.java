@@ -29,9 +29,7 @@ public class Response {
         return (HTTP_PROTOCOL + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode)) + CRLF;
     }
 
-    public byte[] getResponseBody() {
-        return responseBody;
-    }
+    public byte[] getResponseBody() { return responseBody; }
 
     public void setResponseBody(String responseBody) {
         this.responseBody = responseBody.getBytes();

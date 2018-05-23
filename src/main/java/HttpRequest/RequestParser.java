@@ -8,17 +8,6 @@ import java.util.List;
 
 public class RequestParser {
 
-    private static HashMap<String, String> parseRequestHeaders(String headers) {
-        HashMap<String, String> requestHeaderMap = new HashMap<>();
-        List<String> headerList = Arrays.asList(headers.split("\r\n"));
-
-        headerList.forEach(headerItem -> {
-            String[] keyValue = headerItem.split(":");
-            requestHeaderMap.putIfAbsent(keyValue[0].trim(), keyValue[1].trim());
-        });
-        return requestHeaderMap;
-    }
-
     public Request parseRequest(String requestString) {
 
         String[] httpRequest = requestString.split("\r\n\r\n", 2);
@@ -42,14 +31,23 @@ public class RequestParser {
 
     private String parsePathName(String requestLine) {
         String path = requestLine.split(" ")[1];
-        String pathName = path.split("\\?")[0];
-        return pathName;
+        return (path.contains("?")) ? path.split("\\?")[0] : path;
+    }
+
+    private static HashMap<String, String> parseRequestHeaders(String headers) {
+        HashMap<String, String> requestHeaderMap = new HashMap<>();
+        List<String> headerList = Arrays.asList(headers.split("\r\n"));
+
+        headerList.forEach(headerItem -> {
+            String[] keyValue = headerItem.split(":");
+            requestHeaderMap.putIfAbsent(keyValue[0].trim(), keyValue[1].trim());
+        });
+        return requestHeaderMap;
     }
 
     private HashMap<String, String> getQueryPairs(String requestLine) {
 
         HashMap<String, String> queryPairs = new HashMap<>();
-
         if (isRequestWithSearchQuery(requestLine)) {
             queryPairs = getQueryParameters(requestLine.split(" ")[1]);
         }
@@ -61,10 +59,7 @@ public class RequestParser {
     }
 
     private String getQuery(String path) {
-        if (path.split("\\?").length == 2) {
-            return path.split("\\?")[1];
-        }
-        return "";
+        return (path.split("\\?").length == 2) ? path.split("\\?")[1] : "";
     }
 
     private HashMap<String, String> getQueryParameters(String path) {

@@ -38,6 +38,5 @@ public class ResponseHandler implements Runnable {
 
         logs.add(requestString.split("\r\n")[0]);
     }
-
 }
 

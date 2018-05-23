@@ -8,6 +8,17 @@ import java.util.List;
 
 public class RequestParser {
 
+    private static HashMap<String, String> parseRequestHeaders(String headers) {
+        HashMap<String, String> requestHeaderMap = new HashMap<>();
+        List<String> headerList = Arrays.asList(headers.split("\r\n"));
+
+        headerList.forEach(headerItem -> {
+            String[] keyValue = headerItem.split(":");
+            requestHeaderMap.putIfAbsent(keyValue[0].trim(), keyValue[1].trim());
+        });
+        return requestHeaderMap;
+    }
+
     public Request parseRequest(String requestString) {
 
         String[] httpRequest = requestString.split("\r\n\r\n", 2);
@@ -33,17 +44,6 @@ public class RequestParser {
         String path = requestLine.split(" ")[1];
         String pathName = path.split("\\?")[0];
         return pathName;
-    }
-
-    private static HashMap<String, String> parseRequestHeaders(String headers) {
-        HashMap<String, String> requestHeaderMap = new HashMap<>();
-        List<String> headerList = Arrays.asList(headers.split("\r\n"));
-
-        headerList.forEach(headerItem -> {
-            String[] keyValue = headerItem.split(":");
-            requestHeaderMap.putIfAbsent(keyValue[0].trim(), keyValue[1].trim());
-        });
-        return requestHeaderMap;
     }
 
     private HashMap<String, String> getQueryPairs(String requestLine) {

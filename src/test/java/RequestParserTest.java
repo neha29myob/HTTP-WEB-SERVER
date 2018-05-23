@@ -9,12 +9,12 @@ public class RequestParserTest {
     private RequestParser requestParser;
 
     @Before
-    public void setup(){
-       requestParser = new RequestParser();
+    public void setup() {
+        requestParser = new RequestParser();
     }
 
     @Test
-    public void givenSimpleRequestStringReturnsRequestMethodAndPath(){
+    public void givenSimpleRequestStringReturnsRequestMethodAndPath() {
         String incomingRequest = "GET / HTTP/1.1\r\nHost: localhost:5000\r\n\r\n";
         Request expectedRequest = requestParser.parseRequest(incomingRequest);
         Assert.assertEquals(expectedRequest.getRequestMethod(), RequestMethod.GET);
@@ -22,11 +22,11 @@ public class RequestParserTest {
     }
 
     @Test
-    public void givenRequestWithDataReturnsRequestBody(){
+    public void givenRequestWithDataReturnsRequestBody() {
 
         String incomingRequest = "POST /form HTTP/1.1" +
-                                 "\r\nContent-Length: 11\r\nHost: localhost:5000" +
-                                 "\r\n\r\nMy=Data";
+                "\r\nContent-Length: 11\r\nHost: localhost:5000" +
+                "\r\n\r\nMy=Data";
         Request expectedRequest = requestParser.parseRequest(incomingRequest);
         Assert.assertEquals(expectedRequest.getRequestMethod(), RequestMethod.POST);
         Assert.assertEquals(expectedRequest.getPathName(), "/form");
@@ -34,25 +34,25 @@ public class RequestParserTest {
     }
 
     @Test
-    public void givenRequestWithSpecificHeadersReturnsRequestHeaders(){
+    public void givenRequestWithSpecificHeadersReturnsRequestHeaders() {
 
         String incomingRequest = "GET /logs HTTP/1.1" +
-                                 "\r\nCookie: Chocolate\r\nHost: localhost:5000\r\n\r\n";
+                "\r\nCookie: Chocolate\r\nHost: localhost:5000\r\n\r\n";
         Request expectedRequest = requestParser.parseRequest(incomingRequest);
         Assert.assertTrue(expectedRequest.getRequestHeaders().containsKey("Cookie"));
         Assert.assertTrue(expectedRequest.getRequestHeaders().containsValue("Chocolate"));
-        Assert.assertEquals(expectedRequest.getRequestHeaders().get("Cookie"),"Chocolate");
+        Assert.assertEquals(expectedRequest.getRequestHeaders().get("Cookie"), "Chocolate");
     }
 
     @Test
-    public void givenRequestWithSearchQueryReturnsRequestSearchQueryParameters(){
+    public void givenRequestWithSearchQueryReturnsRequestSearchQueryParameters() {
 
         String incomingRequest = "GET /parameters?variable_1=test&variable_2=stuff HTTP/1.1" +
-                                 "\r\nHost: localhost:5000\r\n\r\n";
+                "\r\nHost: localhost:5000\r\n\r\n";
         Request expectedRequest = requestParser.parseRequest(incomingRequest);
         Assert.assertEquals(expectedRequest.getSearchQuery().size(), 2);
         Assert.assertTrue(expectedRequest.getSearchQuery().containsKey("variable_1"));
-        Assert.assertEquals(expectedRequest.getSearchQuery().get("variable_2"),"stuff");
+        Assert.assertEquals(expectedRequest.getSearchQuery().get("variable_2"), "stuff");
     }
 
 }

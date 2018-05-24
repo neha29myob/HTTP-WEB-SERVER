@@ -8,28 +8,33 @@ import java.util.List;
 
 public class RequestParser {
 
-    public static Request parseRequest(String requestString) {
+    public Request parseRequest(String requestString) {
 
         String[] httpRequest = requestString.split("\r\n\r\n", 2);
         String[] requestHeader = httpRequest[0].split("\r\n", 2);
         String requestLine = requestHeader[0];
 
-        Request request = createRequestLine(requestLine);
-        request.setRequestHeader(createRequestHeader(requestHeader[1]));
-        request.setRequestBody(httpRequest[1]);
+        return new Request(parseRequestMethod(requestLine)
+                , parsePathName(requestLine)
+                , parseRequestHeaders(requestHeader[1])
+                , httpRequest[1]
+                , getQueryPairs(requestLine));
+    }
 
-        if (isRequestWithSearchQuery(requestLine)) {
-            HashMap<String, String> queryPairs = getQueryParameters(requestLine.split(" ")[1]);
-            request.setSearchQuery(queryPairs);
+    private RequestMethod parseRequestMethod(String requestLine) {
+        try {
+            return RequestMethod.valueOf(requestLine.split(" ")[0]);
+        } catch (IllegalArgumentException e) {
+            return RequestMethod.BAD;
         }
-        return request;
     }
 
-    private static boolean isRequestWithSearchQuery(String requestLine) {
-        return !(getQuery(requestLine.split(" ")[1]).isEmpty());
+    private String parsePathName(String requestLine) {
+        String path = requestLine.split(" ")[1];
+        return (path.contains("?")) ? path.split("\\?")[0] : path;
     }
 
-    private static HashMap<String, String> createRequestHeader(String headers) {
+    private static HashMap<String, String> parseRequestHeaders(String headers) {
         HashMap<String, String> requestHeaderMap = new HashMap<>();
         List<String> headerList = Arrays.asList(headers.split("\r\n"));
 
@@ -40,30 +45,24 @@ public class RequestParser {
         return requestHeaderMap;
     }
 
+    private HashMap<String, String> getQueryPairs(String requestLine) {
 
-    private static String getQuery(String path) {
-        if (path.split("\\?").length == 2) {
-            return path.split("\\?")[1];
+        HashMap<String, String> queryPairs = new HashMap<>();
+        if (isRequestWithSearchQuery(requestLine)) {
+            queryPairs = getQueryParameters(requestLine.split(" ")[1]);
         }
-        return "";
+        return queryPairs;
     }
 
-    private static Request createRequestLine(String requestLine) {
-        RequestMethod requestMethod = getRequestMethod(requestLine);
-        String path = requestLine.split(" ")[1];
-        String pathName = path.split("\\?")[0];
-        return new Request(requestMethod, pathName);
+    private boolean isRequestWithSearchQuery(String requestLine) {
+        return !(getQuery(requestLine.split(" ")[1]).isEmpty());
     }
 
-    private static RequestMethod getRequestMethod(String requestLine) {
-        try {
-            return RequestMethod.valueOf(requestLine.split(" ")[0]);
-        } catch (IllegalArgumentException e) {
-            return RequestMethod.BAD;
-        }
+    private String getQuery(String path) {
+        return (path.split("\\?").length == 2) ? path.split("\\?")[1] : "";
     }
 
-    public static HashMap<String, String> getQueryParameters(String path) {
+    private HashMap<String, String> getQueryParameters(String path) {
         HashMap<String, String> parameterPair = new HashMap<>();
         List<String> parameters = Arrays.asList(getQuery(path).split("&"));
         parameters.forEach(parameter -> {
@@ -74,7 +73,7 @@ public class RequestParser {
         return parameterPair;
     }
 
-    public static void createQueryParameterMap(HashMap<String, String> parameterPair, String parameter, int keyIndex) {
+    private void createQueryParameterMap(HashMap<String, String> parameterPair, String parameter, int keyIndex) {
         try {
             parameterPair.put(parameter.substring(0, keyIndex), URLDecoder.decode(parameter.substring(keyIndex + 1), "UTF-8"));
         } catch (UnsupportedEncodingException e) {

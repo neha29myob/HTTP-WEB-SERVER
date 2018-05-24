@@ -15,7 +15,7 @@ public class ImageHandler implements HttpRequestHandler {
         String filePath = Constants.DIRECTORY_PATH + request.getPathName();
 
         Response response = new Response(200);
-        response.setResponseHeader("Content-type:", "image/" + request.getPathName().split("\\.")[1]);
+        response.setResponseHeader("content-type", "image/" + request.getPathName().split("\\.")[1]);
         try {
             response.setResponseBody(writeImageToResponseBody(filePath));
         } catch (IOException e) {

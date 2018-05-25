@@ -54,7 +54,7 @@ public class FileContentHandler implements HttpRequestHandler {
             response.setResponseBody(readFile(filePath));
             response.setResponseHeader("content-type", "text/plain");
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             return new Response(404);
         }
     }
@@ -72,7 +72,7 @@ public class FileContentHandler implements HttpRequestHandler {
             writeToFile(file.toString(), request.getRequestBody());
             return response;
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new Response(404);
         }
@@ -95,7 +95,7 @@ public class FileContentHandler implements HttpRequestHandler {
 
             writeToFile(filePath, request.getRequestBody());
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new Response(404);
         }
@@ -109,7 +109,7 @@ public class FileContentHandler implements HttpRequestHandler {
 
             writeToFile(filePath, request.getRequestBody());
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return new Response(404);
         }

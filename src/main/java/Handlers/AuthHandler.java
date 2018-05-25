@@ -2,7 +2,7 @@ package Handlers;
 
 import HttpRequest.Request;
 import HttpResponse.Response;
-import HttpResponse.ResponseHandler;
+import HttpServer.RequestResponseProcessor;
 
 import java.util.Base64;
 import java.util.stream.Collectors;
@@ -35,7 +35,7 @@ public class AuthHandler implements HttpRequestHandler {
     }
 
     private String getLogs() {
-        return ResponseHandler.logs.stream().collect(Collectors.joining("\r\n"));
+        return RequestResponseProcessor.logs.stream().collect(Collectors.joining("\r\n"));
     }
 
 

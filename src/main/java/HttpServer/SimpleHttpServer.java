@@ -1,5 +1,4 @@
-import HttpResponse.ResponseHandler;
-import HttpResponse.Router;
+package HttpServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -19,7 +18,7 @@ public class SimpleHttpServer {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             Router router = new Router();
             while (true) {
-                serverExecutorPool.submit(new ResponseHandler(serverSocket.accept(), router));
+                serverExecutorPool.submit(new RequestResponseProcessor(serverSocket.accept(), router));
             }
         } finally {
             serverExecutorPool.shutdown();

@@ -1,7 +1,8 @@
-package HttpResponse;
+package HttpServer;
 
 import Handlers.*;
 import HttpRequest.Request;
+import HttpResponse.Response;
 
 import java.util.HashMap;
 

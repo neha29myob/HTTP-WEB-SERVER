@@ -25,9 +25,7 @@ public class Response {
         this.responseHeader.put(key, value);
     }
 
-    public String getResponseStatusLine() {
-        return (HTTP_PROTOCOL + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode)) + CRLF;
-    }
+    public String getResponseStatusLine() { return (HTTP_PROTOCOL + statusCode + " " + HttpStatusCode.httpStatusCodeMap.get(statusCode)) + CRLF; }
 
     public byte[] getResponseBody() { return responseBody; }
 

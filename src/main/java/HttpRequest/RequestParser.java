@@ -18,7 +18,7 @@ public class RequestParser {
                 , parsePathName(requestLine)
                 , parseRequestHeaders(requestHeader[1])
                 , httpRequest[1]
-                , getQueryPairs(requestLine));
+                , parseSearchQuery(requestLine));
     }
 
     private RequestMethod parseRequestMethod(String requestLine) {
@@ -45,7 +45,7 @@ public class RequestParser {
         return requestHeaderMap;
     }
 
-    private HashMap<String, String> getQueryPairs(String requestLine) {
+    private HashMap<String, String> parseSearchQuery(String requestLine) {
 
         HashMap<String, String> queryPairs = new HashMap<>();
         if (isRequestWithSearchQuery(requestLine)) {

@@ -1,8 +1,11 @@
-package HttpResponse;
+package HttpServer;
 
 import HttpRequest.Request;
 import HttpRequest.RequestParser;
 import HttpRequest.RequestReader;
+import HttpResponse.Response;
+import HttpResponse.ResponseWriter;
+import HttpServer.Router;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,19 +13,19 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResponseHandler implements Runnable {
-    public static List<String> logs = new ArrayList<>();
+public class RequestResponseProcessor implements Runnable {
     private Socket connection;
     private Router router;
+    public static List<String> logs = new ArrayList<>();
 
-    public ResponseHandler(Socket connection, Router router) {
+    public RequestResponseProcessor(Socket connection, Router router) {
         this.connection = connection;
         this.router = router;
     }
 
     public void run() {
-        try (Socket c = connection) {
-            processResponse(c);
+        try (Socket socket = connection) {
+            processResponse(socket);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -37,15 +37,4 @@ public class Request {
         return searchQuery;
     }
 
-    @Override
-    public String toString() {
-        return "Request{" +
-                "requestMethod=" + requestMethod +
-                ", searchRequest=" + searchQuery +
-                ", pathName='" + pathName + '\'' +
-                ", requestHeader=" + requestHeader +
-                ", requestBody='" + requestBody + '\'' +
-                '}';
-    }
-
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class HttpStatusCode {
     public static final HashMap<Integer, String> httpStatusCodeMap = new HashMap<Integer, String>();
-
     static {
         httpStatusCodeMap.put(200, "OK");
         httpStatusCodeMap.put(404, "Not Found");

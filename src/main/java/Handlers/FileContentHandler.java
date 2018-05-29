@@ -91,6 +91,7 @@ public class FileContentHandler implements HttpRequestHandler {
     private Response patchResponse(Request request, String filePath) {
         try {
             Response response = new Response(204);
+            response.setResponseHeader("ETag", request.getRequestHeaders().get("If-Match"));
             response.setResponseBody(request.getRequestBody());
 
             writeToFile(filePath, request.getRequestBody());

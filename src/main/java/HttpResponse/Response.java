@@ -45,6 +45,10 @@ public class Response {
         return responseHeaderString + CRLF;
     }
 
+//    public byte[] toBytes(){
+//        return getResponseStatusLine().getBytes()
+//    }
+
     @Override
     public String toString() {
         return getResponseStatusLine() + CRLF +
